@@ -6,7 +6,7 @@ from app.DataAggregator import aggregate_data
 from app.PdfParser import parse_pdf
 
 
-if __name__ == "__main__":
+def main():
     with open(r'F:\git\mtg\mtg-liga-parser\config.json') as configfile:
       config = json.load(configfile)
 
@@ -39,3 +39,7 @@ if __name__ == "__main__":
     write_data(aggregated_data, aggregated_file, header, csv_delimiter)
 
     print("writing done in: ", aggregated_file)
+
+
+if __name__ == "__main__":
+    main()
