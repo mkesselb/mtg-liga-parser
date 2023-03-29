@@ -5,30 +5,37 @@ from app.CsvWriter import write_data
 from app.DataAggregator import aggregate_data
 from app.PdfParser import parse_pdf
 
-with open(r'F:\git\mtg\mtg-liga-parser\config.json') as configfile:
-  config = json.load(configfile)
 
-pdf_folder = "pdfs"
-if "pdf_folder" in config:
-    pdf_folder = config["pdf_folder"]
+if __name__ == "__main__":
+    with open(r'F:\git\mtg\mtg-liga-parser\config.json') as configfile:
+      config = json.load(configfile)
 
-aggregated_file = "ligadata.csv"
-if "aggregated_file" in config:
-    aggregated_file = config["aggregated_file"]
+    pdf_folder = "pdfs"
+    if "pdf_folder" in config:
+        pdf_folder = config["pdf_folder"]
 
-pdfFiles = [f for f in os.listdir(pdf_folder) if os.path.isfile(os.path.join(pdf_folder, f))]
-print("found pdf files: ", pdfFiles)
+    aggregated_file = "ligadata.csv"
+    if "aggregated_file" in config:
+        aggregated_file = config["aggregated_file"]
 
-all_data = {}
-for pdf in pdfFiles:
-    date, player_data = parse_pdf(os.path.join(pdf_folder, pdf))
-    all_data[date] = player_data
+    csv_delimiter = ";"
+    if "csv_delimiter" in config:
+        csv_delimiter = config["csv_delimiter"]
 
-aggregated_data = aggregate_data(all_data)
-sorted_data = sorted(aggregated_data.items(), key=lambda dict_tuple: dict_tuple[1]["Punkte"], reverse=True)
-print("sorted data : ", sorted_data)
+    pdfFiles = [f for f in os.listdir(pdf_folder) if os.path.isfile(os.path.join(pdf_folder, f))]
+    print("found pdf files: ", pdfFiles)
 
-# import all pdfs from a pdfs resource folder
-# aggregate the whole data
-# TODO: then save out a .csv file for easy excel opening
-write_data(sorted_data, aggregated_file)
+    all_data = {}
+    for pdf in pdfFiles:
+        date, player_data = parse_pdf(os.path.join(pdf_folder, pdf))
+        all_data[date] = player_data
+
+    aggregated_data = aggregate_data(all_data)
+    print("sorted data: ", aggregated_data)
+
+    header = ["Name", "Punkte", "OMW%", "GW%", "OGW%", "Events"]
+    for event_date in all_data.keys():
+        header.append(event_date)
+    write_data(aggregated_data, aggregated_file, header, csv_delimiter)
+
+    print("writing done in: ", aggregated_file)

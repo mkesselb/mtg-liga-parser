@@ -1,4 +1,5 @@
 {
   "pdf_folder": "F:\\git\\mtg\\mtg-liga-parser\\pdfs",
-  "aggregated_file": "ligadata.csv"
+  "aggregated_file": "ligadata.csv",
+  "csv_delimiter": ";"
 }
