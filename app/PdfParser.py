@@ -15,7 +15,6 @@ def parse_pdf(pdf_path):
     for line in text.split("\n"):
         if parsing and re.search("^\d+", line) is not None:
             # here we remove pdf whitespaces so that splitting can work fine
-            print(line)
             line_replaced = line.replace(u"\u00A0", "\t")
             lineparts = re.split("\t+", line_replaced)
             player_data.append({"Rang": int(lineparts[0].strip()),
@@ -27,13 +26,12 @@ def parse_pdf(pdf_path):
                                 })
 
         if line.startswith("------"):
-            print("start parsing")
             parsing = True
         if line.startswith("Event-Dat"):
             lineparts = re.split("\s", line)
             event_date = lineparts[-1]
 
-    print(player_data)
+    print(pdf_path, " -> ", player_data)
 
     return event_date, player_data
 
