@@ -14,7 +14,14 @@ The output file is always overwritten by processing all input .pdf files.
 ```
 {
   "pdf_folder": "relative/path/to/pdf/folder, e.g. pdfs",
-  "aggregated_file": "relative/path/to/ligadata.csv, file to be created",
+  ip"aggregated_file": "relative/path/to/ligadata.csv, file to be created",
   "csv_delimiter": "; -> this is the .csv delimiter to be used"
 }
+```
+
+# Packaging
+
+```
+pyinstaller __main__.py 
+pyinstaller -F __main__.py
 ```
